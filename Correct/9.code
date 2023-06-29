@@ -1,0 +1,16 @@
+procedure c9 is
+	record x;
+	procedure A ( r ) is
+		integer x;
+		if r[0] < 9 then
+			x := in();
+			r[0] := x;
+			begin A(r); 
+		end
+	end
+begin
+	x := new record[1];
+	x[0] := in();
+	begin A(x);
+	out(x[0]);
+end

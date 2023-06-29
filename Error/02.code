@@ -1,0 +1,11 @@
+procedure err2 is
+	procedure A( r, s ) is
+		integer x;
+		x := r[0];
+	end
+begin
+	record x;
+	x := new record[1];
+	x[0] := 5;
+	begin A(x);
+end

@@ -1,0 +1,15 @@
+procedure err3 is
+	procedure A( r ) is
+		integer x;
+		x := r[0];
+	end
+	procedure A( r ) is
+		integer x;
+		x := r[0];
+	end
+	record x;
+begin
+	x := new record[1];
+	x[0] := 5;
+	begin A(x);
+end

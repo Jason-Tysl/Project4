@@ -1,0 +1,10 @@
+procedure err0 is
+	procedure A ( r ) is
+	end
+	record x;
+begin
+	x := new record[1];
+	x := 1;
+	begin A(x);
+	out(4);
+end
