@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Call implements Stmt {
 
     Id id;
@@ -30,17 +32,23 @@ class Call implements Stmt {
         System.out.println(");");
     }
 
-    private void checkValidTarget() {
+    private void checkFunctionDeclared() {
         String functionName = id.getString();
         if (!Memory.functions.containsKey(functionName)) {
-            System.out.println("ERROR: Function call to \"" + functionName + "\" has no valid target.");
+            System.out.println("ERROR: Function call \"" + functionName + "\" was never declared.");
 			System.exit(0);
         }
     }
 
-    public void execute() {
-        checkValidTarget();
+    private void checkDistinctParams() {
         
+    }
+
+    public void execute() {
+        checkFunctionDeclared();        
+        String functionName = id.getString();
+        Function calledFunction = Memory.functions.get(functionName);
+        List<String> listOfParameters = parameters.execute();
     }
 
     

@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Parameters {
 
     Id id;
@@ -21,8 +23,27 @@ public class Parameters {
             parameters.print();
         }
     }
-    
-    public void execute() {
-        
+
+    private void checkDistinctParams(List<String> existingParams, String paramToCheck) {
+        if (existingParams.contains(paramToCheck)) {
+            System.out.println("ERROR: Duplicate parameter: " + paramToCheck);
+			System.exit(0);
+        }
     }
+
+    // returns ArrayList of parameters 
+    public List<String> execute() {
+        List<String> params;
+        String functionName = id.getString();
+        if (parameters != null) {
+            params = parameters.execute();
+        } else {
+            params = new ArrayList<String>();
+        }
+        checkDistinctParams(params, functionName);
+        params.add(functionName);
+        return params;
+    }
+
+    
 }
