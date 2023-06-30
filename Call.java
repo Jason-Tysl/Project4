@@ -32,6 +32,7 @@ class Call implements Stmt {
         System.out.println(");");
     }
 
+    // if the function was never declared you can't call it
     private void checkFunctionDeclared() {
         String functionName = id.getString();
         if (!Memory.functions.containsKey(functionName)) {
@@ -40,15 +41,28 @@ class Call implements Stmt {
         }
     }
 
-    private void checkDistinctParams() {
-        
+    // if the function call and declaration have a different number of params you can't call it
+    private void checkSameNumOfParams(List<String> formalParamList, List<String> actualParamList) {
+        if (formalParamList.size() > actualParamList.size()) {
+            System.out.println("ERROR: Too few actual parameters in function call: " + id.getString());
+			System.exit(0);
+        } else if (formalParamList.size() < actualParamList.size()) {
+            System.out.println("ERROR: Too many actual parameters in function call: " + id.getString());
+			System.exit(0);
+        }
     }
 
     public void execute() {
         checkFunctionDeclared();        
         String functionName = id.getString();
         Function calledFunction = Memory.functions.get(functionName);
-        List<String> listOfParameters = parameters.execute();
+        Parameters calledParameters = calledFunction.params;
+        StmtSeq calledStmtSeq = calledFunction.stmtSeq;
+        List<String> listOfFormalParameters = calledParameters.getParameters();
+        List<String> listOfActualParameters = parameters.getParameters();
+        checkSameNumOfParams(listOfFormalParameters, listOfActualParameters);
+
+
     }
 
     

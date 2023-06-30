@@ -24,23 +24,15 @@ public class Parameters {
         }
     }
 
-    private void checkDistinctParams(List<String> existingParams, String paramToCheck) {
-        if (existingParams.contains(paramToCheck)) {
-            System.out.println("ERROR: Duplicate parameter: " + paramToCheck);
-			System.exit(0);
-        }
-    }
-
     // returns ArrayList of parameters 
-    public List<String> execute() {
+    public List<String> getParameters() {
         List<String> params;
         String functionName = id.getString();
         if (parameters != null) {
-            params = parameters.execute();
+            params = parameters.getParameters();
         } else {
             params = new ArrayList<String>();
         }
-        checkDistinctParams(params, functionName);
         params.add(functionName);
         return params;
     }

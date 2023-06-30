@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Function {
     // Id id;
     String functionName;
@@ -50,8 +52,25 @@ public class Function {
         }
     }
 
+    private void checkDistinctParams(List<String> paramList) {
+        List<String> distinctList = new ArrayList<String>();
+        for (String param : paramList) {
+            if (!distinctList.contains(param)) {
+                distinctList.add(param);
+            }
+        }
+
+        if (distinctList.size() != paramList.size()) {
+            System.out.println("ERROR: Declared function \"" + functionName + "\" has formal parameters with the same name. (Indistinct)");
+			System.exit(0);
+        }
+
+    }
+
     public void execute() {
         checkOverload();
+        List<String> formalParamList = this.params.getParameters();
+        checkDistinctParams(formalParamList);
         Memory.functions.put(functionName, this);
     }
     

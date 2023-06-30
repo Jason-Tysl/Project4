@@ -15,7 +15,7 @@ class Memory {
 	}
 	
 	public static HashMap<String, Value> global;
-	public static Stack<HashMap<String, Value>> local;
+	public static Stack<Stack<HashMap<String, Value>>> local;
 	public static HashMap<String, Function> functions;
 	
 	// Helper methods to manage memory
@@ -29,8 +29,9 @@ class Memory {
 	// Initializes the local data structure
 	// Called before executing the main StmtSeq
 	public static void initializeLocal() {
-		local = new Stack<HashMap<String, Value>>();
-		local.push(new HashMap<String, Value>());
+		local = new Stack<Stack<HashMap<String, Value>>>();
+		local.push(new Stack<HashMap<String, Value>>());
+		local.peek().push(new HashMap<String, Value>());
 	}
 
 	public static void inializeFunctions() {
@@ -39,19 +40,33 @@ class Memory {
 	
 	// Pushes a "scope" for if/loop stmts
 	public static void pushScope() {
-		local.push(new HashMap<String, Value>());
+		local.peek().push(new HashMap<String, Value>());
 	}
 	
 	// Pops a "scope"
 	public static void popScope() {
 		local.pop();
 	}
-	
+
+	public static void pushStackCall(List<String> formalParamList, List<String> actualParamList) {
+		// create new local stack of hashMaps for the function call
+		Stack<HashMap<String, Value>> callStack = new Stack<HashMap<String, Value>>();
+		callStack.push(new HashMap<String, Value>());
+
+		for (int i = 0; i < formalParamList.size(); i++) {
+			Value actualValue = new Value(Core.RECORD);
+			actualValue = getLocalOrGlobal(actualParamList.get(i));
+			callStack.peek().put(formalParamList.get(i), actualValue);
+		}
+
+		local.push(callStack);
+	}
+
 	// Handles decl integer
 	public static void declareInteger(String id) {
 		Value v = new Value(Core.INTEGER);
 		if (local != null) {
-			local.peek().put(id, v);
+			local.peek().peek().put(id, v);
 		} else {
 			global.put(id, v);
 		}
@@ -61,7 +76,7 @@ class Memory {
 	public static void declareRecord(String id) {
 		Value v = new Value(Core.RECORD);
 		if (local != null) {
-			local.peek().put(id, v);
+			local.peek().peek().put(id, v);
 		} else {
 			global.put(id, v);
 		}
@@ -118,10 +133,10 @@ class Memory {
 	private static Value getLocalOrGlobal(String id) {
 		Value result;
 		if (local.size() > 0) {
-			if (local.peek().containsKey(id)) {
-				result = local.peek().get(id);
+			if (local.peek().peek().containsKey(id)) {
+				result = local.peek().peek().get(id);
 			} else {
-				HashMap<String, Value> temp = local.pop();
+				Stack<HashMap<String, Value>> temp = local.pop();
 				result = getLocalOrGlobal(id);
 				local.push(temp);
 			}
