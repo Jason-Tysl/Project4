@@ -1,10 +1,17 @@
 class DeclSeq {
 	Decl decl;
 	DeclSeq ds;
-	
+	Function function;
+
 	void parse() {
-		decl = new Decl();
-		decl.parse();
+		if (Parser.scanner.currentToken() == Core.PROCEDURE) {
+			function = new Function();
+			function.parse();
+		} else {
+			decl = new Decl();
+			decl.parse();
+		}
+
 		if (Parser.scanner.currentToken() != Core.BEGIN) {
 			ds = new DeclSeq();
 			ds.parse();
@@ -12,14 +19,22 @@ class DeclSeq {
 	}
 	
 	void print(int indent) {
-		decl.print(indent);
+		if (function != null) {
+			function.print(indent);
+		} else {
+			decl.print(indent);
+		}
 		if (ds != null) {
 			ds.print(indent);
 		}
 	}
 	
 	void execute() {
-		decl.execute();
+		if (function != null) {
+			function.execute();
+		} else {
+			decl.execute();
+		}
 		if (ds != null) {
 			ds.execute();
 		}
