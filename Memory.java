@@ -16,6 +16,7 @@ class Memory {
 	
 	public static HashMap<String, Value> global;
 	public static Stack<HashMap<String, Value>> local;
+	public static HashMap<String, Function> functions;
 	
 	// Helper methods to manage memory
 	
@@ -30,6 +31,10 @@ class Memory {
 	public static void initializeLocal() {
 		local = new Stack<HashMap<String, Value>>();
 		local.push(new HashMap<String, Value>());
+	}
+
+	public static void inializeFunctions() {
+		functions = new HashMap<String, Function>();
 	}
 	
 	// Pushes a "scope" for if/loop stmts

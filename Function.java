@@ -1,8 +1,10 @@
 public class Function {
-    Id id;
+    // Id id;
     String functionName;
     Parameters params;
     StmtSeq stmtSeq;
+
+    // declares function
 
     public void parse() {
         Parser.expectedToken(Core.PROCEDURE);
@@ -41,8 +43,16 @@ public class Function {
         System.out.println("end");
     }
 
+    private void checkOverload() {
+        if (Memory.functions.containsKey(functionName)) {
+            System.out.println("ERROR: Overloaded function: " + functionName);
+			System.exit(0);
+        }
+    }
+
     public void execute() {
-        
+        checkOverload();
+        Memory.functions.put(functionName, this);
     }
     
 }

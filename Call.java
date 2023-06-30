@@ -30,7 +30,16 @@ class Call implements Stmt {
         System.out.println(");");
     }
 
+    private void checkValidTarget() {
+        String functionName = id.getString();
+        if (!Memory.functions.containsKey(functionName)) {
+            System.out.println("ERROR: Function call to \"" + functionName + "\" has no valid target.");
+			System.exit(0);
+        }
+    }
+
     public void execute() {
+        checkValidTarget();
         
     }
 

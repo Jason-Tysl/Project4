@@ -38,6 +38,7 @@ class Procedure {
 	
 	void execute() {
 		Memory.initializeGlobal();
+		Memory.inializeFunctions();
 		
 		if (ds != null) {
 			ds.execute();
