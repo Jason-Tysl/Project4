@@ -7,11 +7,13 @@ class StmtSeq {
 			stmt = new Assign();
 		} else if (Parser.scanner.currentToken() == Core.OUT) {
 			stmt = new Output();
-		}  else if (Parser.scanner.currentToken() == Core.IF) {
+		} else if (Parser.scanner.currentToken() == Core.IF) {
 			stmt = new If();
 		} else if (Parser.scanner.currentToken() == Core.WHILE) {
 			stmt = new Loop();
-		}  else if (Parser.scanner.currentToken() == Core.INTEGER || Parser.scanner.currentToken() == Core.RECORD) {
+		} else if (Parser.scanner.currentToken() == Core.BEGIN) {
+			stmt = new Call();
+		} else if (Parser.scanner.currentToken() == Core.INTEGER || Parser.scanner.currentToken() == Core.RECORD) {
 			stmt = new Decl();
 		} else {
 			System.out.println("ERROR: Bad start to statement: " + Parser.scanner.currentToken());
