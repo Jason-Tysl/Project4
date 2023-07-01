@@ -58,15 +58,19 @@ class Call implements Stmt {
         Function calledFunction = Memory.functions.get(functionName);
         Parameters calledParameters = calledFunction.params;
         StmtSeq calledStmtSeq = calledFunction.stmtSeq;
+
         List<String> listOfFormalParameters = calledParameters.getParameters();
         List<String> listOfActualParameters = parameters.getParameters(); //this.parameters.getParameters();
+        
         checkSameNumOfParams(listOfFormalParameters, listOfActualParameters); // semantic check
         
-        // allocate memory for call
+        // allocate memory for call (create new frame and copy values of arguments to formal parameters)
         Memory.pushStackCall(listOfFormalParameters, listOfActualParameters);
-        Memory.local.peek().push(new HashMap<String, Memory.Value>());
 
+        // execute the body of the function
         calledStmtSeq.execute();
+
+        // pop the frame off the stack
         Memory.local.pop();
     }
 

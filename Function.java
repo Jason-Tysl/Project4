@@ -23,6 +23,7 @@ public class Function {
 		Parser.scanner.nextToken();
         Parser.expectedToken(Core.IS);
 		Parser.scanner.nextToken();
+        checkEmptyFunction();
         stmtSeq = new StmtSeq();
         stmtSeq.parse();
         // params gives next token, (should be END)
@@ -43,6 +44,13 @@ public class Function {
 			System.out.print("\t");
 		}
         System.out.println("end");
+    }
+
+    private void checkEmptyFunction() {
+        if (Parser.scanner.currentToken() == Core.END) {
+            System.out.println("ERROR: Body missing in function: " + functionName);
+			System.exit(0);
+        }
     }
 
     private void checkOverload() {

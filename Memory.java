@@ -45,7 +45,7 @@ class Memory {
 	
 	// Pops a "scope"
 	public static void popScope() {
-		local.pop();
+		local.peek().pop();
 	}
 
 	public static void pushStackCall(List<String> formalParamList, List<String> actualParamList) {

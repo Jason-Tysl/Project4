@@ -79,9 +79,22 @@ StmtSeq.java - this file contains the parsing and executing for the two differen
 Term.java - this file contains the parsing and executing for the three different productions of <term>.
 
 
-Special Features:
+Special Features: Nothing majorly special was done one way or another.
 
-Overall Design:
+Overall Design: The design is largely taken from the PerfectProject3 from Carmen. New Function, Parameter, and Call
+    classes were created to handle function calls. Each of these additionally came with various semantic checks.
+    The Memory class was also changed quite a bit, with the local memory changing to be a Stack of Stack of Maps 
+    rather than a single Stack of Maps. This caused some other issues when allocating local memory but were reasonably
+    easy to fix. The call execute was the most troublesome as it required a large grasp on the concepts of memory.
 
-Testing/Bugs:
+Testing/Bugs: There was some pretty extensive testing done. Using the test files covered most cases, and at first
+    there was a bug because I accidentally added two scopes for each function. After more testing I got most of the
+    kinks out. There is a bug that causes a NullPointerException in some cases. I couldn't quite pinpoint the exact
+    reason behind this bug, but I have hunch that it has something to do with getting confused between the local
+    and global variables that are named the same thing. The Memory.java file has the function getLocalOrGlobal()
+    which appears to check the local memory first, which the integer x (in Correct/9.code) should have been in, but
+    I think there is some confusion there. It's not recursion or if or anything else like that, so I think there's 
+    some scope confusion, but I didn't implement that, and the PerfectProject3 is slightly different from the way I 
+    did it in Project 3 so I couldn't figure it out. If I were to go through and absolutely make sure that the scopes
+    were separate I think that would fix it.
 
