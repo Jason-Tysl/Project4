@@ -49,7 +49,7 @@ class Memory {
 	}
 
 	public static void pushStackCall(List<String> formalParamList, List<String> actualParamList) {
-		// create new local stack of hashMaps for the function call
+		// create new stack of hashMaps for the function call
 		Stack<HashMap<String, Value>> callStack = new Stack<HashMap<String, Value>>();
 		callStack.push(new HashMap<String, Value>());
 
@@ -59,6 +59,7 @@ class Memory {
 			callStack.peek().put(formalParamList.get(i), actualValue);
 		}
 
+		// add to local memory for function call
 		local.push(callStack);
 	}
 

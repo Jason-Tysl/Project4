@@ -53,16 +53,21 @@ class Call implements Stmt {
     }
 
     public void execute() {
-        checkFunctionDeclared();        
+        checkFunctionDeclared(); // semantic check
         String functionName = id.getString();
         Function calledFunction = Memory.functions.get(functionName);
         Parameters calledParameters = calledFunction.params;
         StmtSeq calledStmtSeq = calledFunction.stmtSeq;
         List<String> listOfFormalParameters = calledParameters.getParameters();
-        List<String> listOfActualParameters = parameters.getParameters();
-        checkSameNumOfParams(listOfFormalParameters, listOfActualParameters);
+        List<String> listOfActualParameters = parameters.getParameters(); //this.parameters.getParameters();
+        checkSameNumOfParams(listOfFormalParameters, listOfActualParameters); // semantic check
+        
+        // allocate memory for call
+        Memory.pushStackCall(listOfFormalParameters, listOfActualParameters);
+        Memory.local.peek().push(new HashMap<String, Memory.Value>());
 
-
+        calledStmtSeq.execute();
+        Memory.local.pop();
     }
 
     
